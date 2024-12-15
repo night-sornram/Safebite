@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/night-sornram/Safebite/database"
 	"github.com/night-sornram/Safebite/models"
 	"golang.org/x/crypto/bcrypt"
@@ -15,7 +16,6 @@ import (
 type User struct {
 	Username     string `json:"username"`
 	Password     string `json:"password"`
-	Role         string `json:"role"`
 	Name         string `json:"name"`
 	Surname      string `json:"surname"`
 	Email        string `json:"email"`
@@ -24,7 +24,7 @@ type User struct {
 	Food_Allergy string `json:"food_allergy"`
 	Health_Issue string `json:"health_issue"`
 	Age          string `json:"age"`
-	Gender       string `json:"gender"`
+	Gender       string `json:"gender" `
 }
 
 type Login struct {
@@ -40,7 +40,9 @@ func HandleCreateUser(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"bad input": err.Error()})
 	}
 	password, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	user.Role = "user"
 	user.Password = string(password)
+	user.UserID = uuid.New()
 
 	if result := gorm.Create(user); result.Error != nil {
 		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
@@ -69,7 +71,7 @@ func HandleLogin(c *fiber.Ctx) error {
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": user.Email,
-		"iss":   user.ID,
+		"iss":   user.UserID,
 		"exp":   time.Now().Add(time.Hour * 24).Unix(),
 		"role":  user.Role,
 	})
