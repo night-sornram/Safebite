@@ -3,17 +3,14 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: process.env.BACKEND_URL,
 });
 
 axiosInstance.interceptors.request.use(
   async (config) => {
     const session = await getServerSession(authOptions);
-    if (session) {
-      config.headers.Authorization = `Bearer ${session}`;
+    if (session?.user.token) {
+      config.headers.Authorization = `Bearer ${session?.user.token}`;
     }
     return config;
   },
@@ -27,11 +24,11 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log(error);
     const originalRequest = error.config;
-    if (!originalRequest._retry) {
-      originalRequest._retry = true;
-      return axiosInstance(originalRequest);
-    }
+    // if (!originalRequest) {
+    //   return axiosInstance(originalRequest);
+    // }
 
     return Promise.reject(error);
   }

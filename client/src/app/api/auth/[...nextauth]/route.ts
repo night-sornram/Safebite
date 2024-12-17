@@ -1,3 +1,4 @@
+import { getMe } from "@/libs/getMe";
 import { userLogin } from "@/libs/userLogin";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -27,11 +28,12 @@ export const authOptions: AuthOptions = {
         );
 
         if (!user) {
-          console.log("login failed");
           return null;
         }
 
-        return user;
+        const me = await getMe(user?.token);
+
+        return { ...user, ...me };
       },
     }),
   ],
@@ -44,10 +46,10 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token, user }) {
       session.user = token as any;
-
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

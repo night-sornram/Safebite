@@ -1,4 +1,5 @@
 "use client";
+import { getMe } from "@/libs/getMe";
 import { Button, FloatButton, Spin } from "antd";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -12,7 +13,7 @@ export default function Home() {
     router.push("/api/auth/signout");
   };
 
-  const handleClicked = () => {
+  const handleClicked = async () => {
     console.log(session);
   };
 
