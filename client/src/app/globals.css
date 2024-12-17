@@ -19,3 +19,7 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.ant-col.ant-form-item-label.css-dev-only-do-not-override-1kf000u {
+  padding-bottom: 0;
+}

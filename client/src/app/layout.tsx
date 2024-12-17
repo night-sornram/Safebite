@@ -6,6 +6,7 @@ import Antd from "@/providers/AntdRegistry";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +29,10 @@ export default async function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <NextAuthProvider session={nextAuthSession}>
           <AntdTheme>
-            <Antd>{children}</Antd>
+            <Antd>
+              <Toaster position="top-center" />
+              {children}
+            </Antd>
           </AntdTheme>
         </NextAuthProvider>
       </body>

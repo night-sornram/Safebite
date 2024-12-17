@@ -9,5 +9,6 @@ export const userLogin = async (email: string, password: string) => {
     return data;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };

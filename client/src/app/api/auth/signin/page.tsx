@@ -5,18 +5,31 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Form, Input, Typography } from "antd";
 import { MdLockOutline, MdMail } from "react-icons/md";
+import toast from "react-hot-toast";
+
+type FormLogin = {
+  username: string;
+  password: string;
+};
 
 export default function SigninPage() {
   const router = useRouter();
   const [form] = Form.useForm();
-  const onSubmit = async () => {
-    await signIn("credentials", {
-      username: "jane@gmail.com",
-      password: "1234",
+
+  const onSubmit = async (prop: FormLogin) => {
+    const res = await signIn("credentials", {
+      username: prop.username,
+      password: prop.password,
       redirect: false,
       callbackUrl: "/",
     });
-    router.push("/");
+
+    if (res?.error) {
+      toast.error("Invalid username or password");
+    } else {
+      toast.success("Login successfully");
+      router.push("/");
+    }
   };
 
   return (
@@ -42,7 +55,7 @@ export default function SigninPage() {
               Let's login for explore continues
             </p>
           </div>
-          <Form form={form} onFinish={onSubmit}>
+          <Form form={form} onFinish={onSubmit} layout="vertical">
             <Form.Item
               name="username"
               label="Username"
