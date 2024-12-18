@@ -1,4 +1,5 @@
 "use client";
+import { Image } from "antd";
 import React, { useState, useRef, useEffect } from "react";
 
 interface Message {
@@ -55,10 +56,23 @@ export default function ChatPagePreview() {
         {messages.map((message: Message) => (
           <div
             key={message.id}
-            className={`flex ${
-              message.sender === "user" ? "justify-end" : "justify-start"
+            className={`flex items-center ${
+              message.sender === "user" ? "justify-end" : "justify-start gap-3"
             }`}
           >
+            <div
+              className={`w-10 h-10 rounded-full overflow-hidden ${
+                message.sender === "user" ? "hidden" : "block"
+              }`}
+            >
+              <Image
+                src="/images/cat.jpg"
+                alt="cat"
+                width={40}
+                height={40}
+                className="object-cover rounded-full"
+              />
+            </div>
             <div
               className={`
                 max-w-[70%] p-3 rounded-lg 

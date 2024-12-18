@@ -1,6 +1,7 @@
 "use client";
 
-import { Form, Image, Input, Typography } from "antd";
+import { Form, Input, Typography } from "antd";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MdLockOutline, MdMail } from "react-icons/md";
@@ -13,7 +14,7 @@ interface Props {
 export default function Desktop({ form, onSubmit }: Props) {
   const router = useRouter();
   return (
-    <main className="h-screen w-full p-8 bg-secondary-main">
+    <main className="h-screen max-sm:hidden w-full p-8 bg-secondary-main">
       <section className="max-w-screen-lg w-full h-full mx-auto flex bg-white rounded-lg p-10">
         <div className="flex flex-col w-2/5 h-full p-8 gap-10 bg-gray-100 rounded-lg">
           <div className="flex flex-col w-full gap-0.5">
@@ -87,8 +88,7 @@ export default function Desktop({ form, onSubmit }: Props) {
         <div className="w-3/5 h-full flex items-center justify-center">
           <div>
             <Image
-              preview={false}
-              src="/images/illustrate-login.svg"
+              src={"/images/illustrate-login.svg"}
               width={400}
               height={400}
               alt="research"
