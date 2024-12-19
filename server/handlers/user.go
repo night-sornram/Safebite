@@ -48,7 +48,42 @@ func HandleCreateUser(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
 	}
 
+	team := models.Team{
+		OwnerID: user.UserID.String(),
+		TeamID:  uuid.New(),
+	}
+
+	if result := gorm.Create(&team); result.Error != nil {
+		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+	}
+
+	teamUser := models.Team_User{
+		TeamID: team.TeamID.String(),
+		UserID: user.UserID.String(),
+		Role:   "owner",
+	}
+
+	if result := gorm.Create(&teamUser); result.Error != nil {
+		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+	}
+
 	return c.Status(201).JSON(user)
+
+}
+
+func HandleUpdateUser(c *fiber.Ctx) error {
+	user := new(models.User)
+	gorm := database.Gorm()
+
+	if err := c.BodyParser(user); err != nil {
+		return c.Status(400).JSON(fiber.Map{"bad input": err.Error()})
+	}
+
+	if result := gorm.Save(user); result.Error != nil {
+		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+	}
+
+	return c.Status(200).JSON(user)
 
 }
 

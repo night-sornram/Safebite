@@ -31,9 +31,12 @@ func Gorm() *gorm.DB {
 
 	User := models.User{}
 	History := models.History{}
+	Team := models.Team{}
+	TeamUser := models.Team_User{}
 
 	db.AutoMigrate(&User)
-
+	db.AutoMigrate(&Team)
+	db.AutoMigrate(&TeamUser)
 	db.AutoMigrate(&History)
 
 	return db

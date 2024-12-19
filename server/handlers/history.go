@@ -26,7 +26,13 @@ func HandleCreateHistory(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "user not found"})
 	}
 
+	team := new(models.Team_User)
+	if team := gorm.Model(&models.Team_User{}).Where("user_id = ? AND role = ?", c.Locals("iss"), "owner").First(&team); team.Error != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "team not found"})
+	}
+
 	history.UserID = c.Locals("iss").(string)
+	history.TeamID = team.TeamID
 
 	if result := gorm.Create(history); result.Error != nil {
 		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
@@ -42,6 +48,30 @@ func HandleGetHistories(c *fiber.Ctx) error {
 	histories := new([]models.History)
 
 	if result := gorm.Model(&models.History{}).Where("user_id = ?", c.Locals("iss")).Find(&histories); result.Error != nil {
+		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+	}
+
+	return c.JSON(histories)
+}
+
+type HistoryByTeam struct {
+	TeamID string `json:"team_id"`
+}
+
+func HandleGetHistoriesByTeam(c *fiber.Ctx) error {
+	team := new(HistoryByTeam)
+	gorm := database.Gorm()
+
+	if err := c.BodyParser(team); err != nil {
+		return c.Status(400).JSON(fiber.Map{"bad input": err.Error()})
+	}
+
+	if team := gorm.Model(&models.Team_User{}).Where("user_id = ? AND team_id = ?", c.Locals("iss"), team.TeamID).First(&models.Team_User{}); team.Error != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "team not found"})
+	}
+
+	histories := new([]models.History)
+	if result := gorm.Model(&models.History{}).Where("team_id = ?", team.TeamID).Find(&histories); result.Error != nil {
 		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
 	}
 

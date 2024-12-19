@@ -42,9 +42,12 @@ func StartPostgresql() error {
 
 	User := models.User{}
 	History := models.History{}
+	Team := models.Team{}
+	TeamUser := models.Team_User{}
 
 	gorm.AutoMigrate(&User)
-
+	gorm.AutoMigrate(&Team)
+	gorm.AutoMigrate(&TeamUser)
 	gorm.AutoMigrate(&History)
 
 	defer db.Close()

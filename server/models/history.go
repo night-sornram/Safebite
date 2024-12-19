@@ -13,4 +13,6 @@ type History struct {
 	UserID          string `json:"user_id" gorm:"not null"`
 	User            User   `gorm:"foreignKey:UserID"`
 	IsEatable       bool   `json:"is_eatable" gorm:"not null"`
+	TeamID          string `json:"team_id" gorm:"not null"`
+	Team            Team   `gorm:"foreignKey:TeamID"`
 }
