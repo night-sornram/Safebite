@@ -1,8 +1,7 @@
 "use client";
 import { getMe } from "@/libs/getMe";
-import { Button, FloatButton, Spin } from "antd";
+import { Button, FloatButton, Image, Spin } from "antd";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -31,6 +30,7 @@ export default function Home() {
       >
         Good
       </button>
+      <Image src="/images/cat.jpg" alt="logo" width={200} height={200} />
     </main>
   );
 }
