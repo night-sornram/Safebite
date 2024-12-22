@@ -20,4 +20,5 @@ func SetupRoutes(app *fiber.App) {
 	app.Post("/api/teams", middleware.Authorize("user"), handlers.HandleAddTeam)
 	app.Put("/api/users", middleware.Authorize("user"), handlers.HandleUpdateUser)
 	app.Get("/api/histories", middleware.Authorize("user"), handlers.HandleGetHistories)
+	app.Get("/api/teams", middleware.Authorize("user"), handlers.HandleGetTeam)
 }

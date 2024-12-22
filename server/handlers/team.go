@@ -12,6 +12,11 @@ type Team struct {
 	Role   string `json:"role"`
 }
 
+type TeamInfo struct {
+	TeamID string `json:"team_id"`
+	Role   string `json:"role"`
+}
+
 func HandleAddTeam(c *fiber.Ctx) error {
 
 	team := new(Team)
@@ -32,4 +37,24 @@ func HandleAddTeam(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(team_user)
+}
+
+func HandleGetTeam(c *fiber.Ctx) error {
+
+	gorm := database.Gorm()
+	team_users := new([]models.Team_User)
+
+	if result := gorm.Model(&models.Team_User{}).Where("user_id = ?", c.Locals("iss")).Find(&team_users); result.Error != nil {
+		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+	}
+
+	teamsFiltered := []TeamInfo{}
+	for _, tu := range *team_users {
+		teamsFiltered = append(teamsFiltered, TeamInfo{
+			TeamID: tu.TeamID,
+			Role:   tu.Role,
+		})
+	}
+
+	return c.JSON(teamsFiltered)
 }

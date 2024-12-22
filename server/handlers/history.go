@@ -75,5 +75,16 @@ func HandleGetHistoriesByTeam(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
 	}
 
-	return c.JSON(histories)
+	historiesFiltered := []History{}
+	for _, h := range *histories {
+		historiesFiltered = append(historiesFiltered, History{
+			Picture:         h.Picture,
+			FoodName:        h.FoodName,
+			FoodIngredients: h.FoodIngredients,
+			AlertMessage:    h.AlertMessage,
+			IsEatable:       h.IsEatable,
+		})
+	}
+
+	return c.JSON(historiesFiltered)
 }
