@@ -14,6 +14,15 @@ type History struct {
 	IsEatable       bool   `json:"is_eatable"`
 }
 
+type HistoryInfo struct {
+	Picture         string `json:"picture"`
+	FoodName        string `json:"food_name"`
+	FoodIngredients string `json:"food_ingredients"`
+	AlertMessage    string `json:"alert_message"`
+	IsEatable       bool   `json:"is_eatable"`
+	Date            string `json:"date"`
+}
+
 func HandleCreateHistory(c *fiber.Ctx) error {
 	history := new(models.History)
 	gorm := database.Gorm()
@@ -75,14 +84,16 @@ func HandleGetHistoriesByTeam(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
 	}
 
-	historiesFiltered := []History{}
+	historiesFiltered := []HistoryInfo{}
 	for _, h := range *histories {
-		historiesFiltered = append(historiesFiltered, History{
+		historiesFiltered = append(historiesFiltered, HistoryInfo{
+
 			Picture:         h.Picture,
 			FoodName:        h.FoodName,
 			FoodIngredients: h.FoodIngredients,
 			AlertMessage:    h.AlertMessage,
 			IsEatable:       h.IsEatable,
+			Date:            h.CreatedAt.Format("2006-01-02 15:04:05"),
 		})
 	}
 
