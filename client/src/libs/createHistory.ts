@@ -1,15 +1,22 @@
 import axios from "axios";
 
-export const createHistory = async (token: string) => {
+export const createHistory = async (
+  token: string,
+  picture: string,
+  food_name: string,
+  food_ingredients: string,
+  alert_message: string,
+  is_eatable: boolean
+) => {
   try {
     const { data } = await axios.post(
       `http://127.0.0.1:8080/api/histories`,
       {
-        picture: "example.jpg",
-        food_name: "Pizza",
-        food_ingredients: "Cheese, Tomato, Dough",
-        alert_message: "Contains dairy",
-        is_eatable: true,
+        picture,
+        food_name,
+        food_ingredients,
+        alert_message,
+        is_eatable,
       },
       {
         headers: {
@@ -19,7 +26,7 @@ export const createHistory = async (token: string) => {
     );
     return data;
   } catch (error) {
-    console.error(error);
+    throw error;
     return null;
   }
 };

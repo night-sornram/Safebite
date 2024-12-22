@@ -12,7 +12,7 @@ export default function ChatPagePreview() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Welcome to the chat! This is a preview of the chat page.",
+      text: "Welcome to the chat! you can ask me anything.",
       sender: "nutritionist",
     },
   ]);

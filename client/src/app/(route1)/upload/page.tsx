@@ -7,6 +7,7 @@ import { createHistory } from "@/libs/createHistory";
 import { useSession } from "next-auth/react";
 import { getMe } from "@/libs/getMe";
 import toast from "react-hot-toast";
+import { prediction } from "@/libs/prediction";
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -23,6 +24,9 @@ const App = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [base64Files, setBase64Files] = useState<string[]>([]);
+  const [image, setImage] = useState<string>("");
+  const [foodResponse, setFoodResponse] = useState<string>("");
   const { data: session } = useSession();
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -33,8 +37,22 @@ const App = () => {
     setPreviewOpen(true);
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
+  const handleChange: UploadProps["onChange"] = async ({
+    fileList: newFileList,
+  }) => {
     setFileList(newFileList);
+    const list = await Promise.all(
+      newFileList.map(async (file) => {
+        if (!file.url && !file.preview) {
+          file.preview = await getBase64(file.originFileObj as FileType);
+        }
+        const base64String = (file.preview as string)?.split(",")[1];
+        setImage(file.preview as string);
+        return base64String;
+      })
+    );
+    setBase64Files(list);
+  };
 
   const uploadButton = (
     <button
@@ -55,10 +73,21 @@ const App = () => {
     setUploading(true);
 
     // **Change
-    await getMe(session?.user.token as string)
-      .then((res) => console.log(res))
+    await prediction(session?.user.user_id as string, base64Files[0], ["fish"])
+      .then(async (res: Food) => {
+        console.log(res);
+        await createHistory(
+          session?.user.token as string,
+          image,
+          res.food,
+          res.allergy_info.join(", "),
+          "This food is safe for you.",
+          res.warning
+        );
+      })
       .then(() => {
         setFileList([]);
+        setBase64Files([]);
         toast.success("upload successfully.");
       })
       .catch((err) => {
@@ -90,7 +119,7 @@ const App = () => {
         onPreview={handlePreview}
         onChange={handleChange}
       >
-        {fileList.length > 5 ? null : uploadButton}
+        {fileList.length > 0 ? null : uploadButton}
       </Upload>
       <button
         onClick={handleUpload}
