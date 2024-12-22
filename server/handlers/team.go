@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/night-sornram/Safebite/database"
 	"github.com/night-sornram/Safebite/models"
@@ -15,6 +17,7 @@ type Team struct {
 type TeamInfo struct {
 	TeamID string `json:"team_id"`
 	Role   string `json:"role"`
+	Name   string `json:"name"`
 }
 
 func HandleAddTeam(c *fiber.Ctx) error {
@@ -49,10 +52,21 @@ func HandleGetTeam(c *fiber.Ctx) error {
 	}
 
 	teamsFiltered := []TeamInfo{}
-	for _, tu := range *team_users {
+	for _, team := range *team_users {
+		teamModel := models.Team{}
+		if result := gorm.Model(&models.Team{}).Where("team_id = ?", team.TeamID).First(&teamModel); result.Error != nil {
+			return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+		}
+		user := models.User{}
+		if result := gorm.Model(&models.User{}).Where("user_id = ?", teamModel.OwnerID).First(&user); result.Error != nil {
+			return c.Status(500).JSON(fiber.Map{"error": result.Error.Error()})
+		}
+
+		fmt.Println(user.Username)
 		teamsFiltered = append(teamsFiltered, TeamInfo{
-			TeamID: tu.TeamID,
-			Role:   tu.Role,
+			TeamID: team.TeamID,
+			Role:   team.Role,
+			Name:   user.Username,
 		})
 	}
 
