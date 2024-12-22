@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const getMe = async (token: string) => {
   try {
-    const { data } = await axios.get(`http://127.0.0.1:8080/me`, {
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

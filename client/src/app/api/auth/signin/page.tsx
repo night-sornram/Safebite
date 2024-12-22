@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import Mobile from "./components/Mobile";
 import Desktop from "./components/Desktop";
 
-type FormLogin = {
+export type FormLogin = {
   username: string;
   password: string;
 };

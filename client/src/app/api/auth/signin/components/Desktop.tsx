@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MdLockOutline, MdMail } from "react-icons/md";
+import { GoogleLoginComponent } from "./Google";
 
-interface Props {
+export interface Props {
   form: any;
   onSubmit: any;
 }
@@ -15,7 +16,7 @@ export default function Desktop({ form, onSubmit }: Props) {
   const router = useRouter();
   return (
     <main className="h-screen max-sm:hidden w-full p-8 bg-secondary-main">
-      <section className="max-w-screen-lg w-full h-full mx-auto flex bg-white rounded-lg p-10">
+      <section className="max-w-screen-lg w-full h-full mx-auto flex bg-white rounded-lg p-10 overflow-auto">
         <div className="flex flex-col w-2/5 h-full p-8 gap-10 bg-gray-100 rounded-lg">
           <div className="flex flex-col w-full gap-0.5">
             <h1 className="text-secondary-main text-2xl font-bold">
@@ -77,8 +78,15 @@ export default function Desktop({ form, onSubmit }: Props) {
                 </button>
               </Form.Item>
             </Form>
+            <hr />
+            <div className="flex flex-col gap-2 mb-2">
+              <p className="text-black text-center font-bold">
+                Or Login With
+              </p>
+              <GoogleLoginComponent />
+            </div>
             <Link
-              href="/auth/signup"
+              href="../auth/signup"
               className="text-center text-secondary-main/50 text-sm"
             >
               Don't have an account? Sign Up

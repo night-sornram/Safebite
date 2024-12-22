@@ -3,7 +3,7 @@ import axios from "axios";
 export const createHistory = async (token: string) => {
   try {
     const { data } = await axios.post(
-      `http://127.0.0.1:8080/api/histories`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/histories`,
       {
         picture: "example.jpg",
         food_name: "Pizza",
