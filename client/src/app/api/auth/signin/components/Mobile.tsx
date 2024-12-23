@@ -1,7 +1,9 @@
 "use client";
+
 import { Form, Image, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { MdLockOutline, MdMail } from "react-icons/md";
+import { GoogleLoginComponent } from "./Google";
 
 interface Props {
   form: any;
@@ -12,7 +14,7 @@ export default function Mobile({ form, onSubmit }: Props) {
   const router = useRouter();
   return (
     <main className="h-screen sm:hidden w-full flex justify-center items-end bg-secondary-main">
-      <section className=" h-4/5 gap-10 w-full bg-white rounded-t-3xl flex flex-col relative items-center p-6">
+      <section className=" h-4/5 gap-10 w-full bg-white rounded-t-3xl flex flex-col relative items-center p-6 overflow-auto">
         <hr className="border-4 absolute top-3 w-14 rounded-full border-secondary-main/50" />
         <div className="h-2/5 flex items-end">
           <div>
@@ -85,8 +87,15 @@ export default function Mobile({ form, onSubmit }: Props) {
               </button>
             </Form.Item>
           </Form>
+          <hr />
+          <div className="flex flex-col gap-2 mb-2">
+            <p className="text-black text-center font-bold">
+              Or Login With
+            </p>
+            <GoogleLoginComponent />
+          </div>
           <Typography.Link
-            onClick={() => router.push("/auth/signup")}
+            onClick={() => router.push("../auth/signup")}
             className="text-center text-secondary-main/50"
           >
             Don't have an account? Sign Up
