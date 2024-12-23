@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/night-sornram/Safebite/models"
 	"gorm.io/driver/postgres"
@@ -14,6 +15,10 @@ import (
 )
 
 func StartPostgresql() error {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	host := os.Getenv("DATABASE_HOST")
 	portStr := os.Getenv("DATABASE_PORT")
 	port, err := strconv.Atoi(portStr)

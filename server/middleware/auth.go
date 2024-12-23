@@ -8,9 +8,14 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 )
 
 func Protected() fiber.Handler {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	return func(c *fiber.Ctx) error {
 		accessToken := strings.TrimPrefix(c.Get("Authorization"), "Bearer ")
 		if accessToken == "" {

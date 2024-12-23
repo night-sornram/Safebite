@@ -6,12 +6,17 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/joho/godotenv"
 	"github.com/night-sornram/Safebite/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Gorm() *gorm.DB {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	host := os.Getenv("DATABASE_HOST")
 	portStr := os.Getenv("DATABASE_PORT")
 	port, err := strconv.Atoi(portStr)

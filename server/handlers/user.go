@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -8,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
+	"github.com/joho/godotenv"
 	"github.com/night-sornram/Safebite/database"
 	"github.com/night-sornram/Safebite/models"
 	"golang.org/x/crypto/bcrypt"
@@ -88,6 +90,10 @@ func HandleUpdateUser(c *fiber.Ctx) error {
 }
 
 func HandleLogin(c *fiber.Ctx) error {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	user := new(models.User)
 	login := new(Login)
 	gorm := database.Gorm()
@@ -138,6 +144,10 @@ func HandleLogin(c *fiber.Ctx) error {
 }
 
 func HandleGetUser(c *fiber.Ctx) error {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	tokenString := c.Get("Authorization")
 	secretKey := os.Getenv("SECRET")
 	if tokenString == "" {
