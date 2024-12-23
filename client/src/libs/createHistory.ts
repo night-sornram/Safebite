@@ -10,7 +10,7 @@ export const createHistory = async (
 ) => {
   try {
     const { data } = await axios.post(
-      `http://127.0.0.1:8080/api/histories`,
+      `https://safebite-production.up.railway.app/api/histories`,
       {
         picture,
         food_name,

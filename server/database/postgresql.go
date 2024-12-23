@@ -7,7 +7,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/night-sornram/Safebite/models"
 	"gorm.io/driver/postgres"
@@ -15,10 +14,6 @@ import (
 )
 
 func StartPostgresql() error {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	host := os.Getenv("DATABASE_HOST")
 	portStr := os.Getenv("DATABASE_PORT")
 	port, err := strconv.Atoi(portStr)
@@ -29,7 +24,7 @@ func StartPostgresql() error {
 	password := os.Getenv("DATABASE_PASSWORD")
 	dbname := os.Getenv("DATABASE_NAME")
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
 		host, port, user, password, dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
@@ -37,7 +32,7 @@ func StartPostgresql() error {
 		log.Fatal(err)
 	}
 
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
 		host, port, user, password, dbname)
 
 	gorm, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
