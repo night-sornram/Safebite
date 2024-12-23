@@ -5,7 +5,7 @@ import AntdTheme from "@/providers/AntdTheme";
 import Antd from "@/providers/AntdRegistry";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
