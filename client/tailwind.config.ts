@@ -20,6 +20,11 @@ export default {
           card: "rgb(217, 217, 217)",
         },
       },
+      backgroundImage: {
+        chat: "url('/images/ask-chat.svg')",
+        suggest: "url('/images/suggest.svg')",
+        tracking: "url('/images/tracking.svg')",
+      },
     },
   },
   plugins: [],

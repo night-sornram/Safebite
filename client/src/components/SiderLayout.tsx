@@ -1,7 +1,7 @@
 "use client";
 import { getAllTeams } from "@/libs/getAllTeams";
-import { Layout, Menu } from "antd";
-import { useSession } from "next-auth/react";
+import { Layout, Menu, Button, Avatar } from "antd";
+import { useSession, signOut } from "next-auth/react";
 import Sider from "antd/es/layout/Sider";
 import { useEffect, useState } from "react";
 import {
@@ -83,6 +83,19 @@ export default function SiderLayout() {
           />
         </div>
       )}
+      <div className="absolute bottom-5 w-full px-4">
+        <div className="flex items-center justify-between rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-3 items-center">
+            <Avatar size={36} icon={<MdPerson />} />
+            <h1 className="text-base font-semibold">
+              {session?.user.username}
+            </h1>
+          </div>
+          <button className="text-gray-400 underline" onClick={() => signOut()}>
+            Sign Out
+          </button>
+        </div>
+      </div>
     </Sider>
   );
 }
