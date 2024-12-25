@@ -60,7 +60,7 @@ export default function Mobile({ form, onSubmit }: Props) {
               ]}
               style={{ marginBottom: 0 }}
             >
-              <Input
+              <Input.Password
                 type="password"
                 size="large"
                 placeholder="Password"
@@ -89,9 +89,7 @@ export default function Mobile({ form, onSubmit }: Props) {
           </Form>
           <hr />
           <div className="flex flex-col gap-2 mb-2">
-            <p className="text-black text-center font-bold">
-              Or Login With
-            </p>
+            <p className="text-black text-center font-bold">Or Login With</p>
             <GoogleLoginComponent />
           </div>
           <Typography.Link
