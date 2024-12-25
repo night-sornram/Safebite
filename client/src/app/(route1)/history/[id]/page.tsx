@@ -1,5 +1,7 @@
 "use client";
 import { getHistoryByTeam } from "@/libs/getHistoryByTeam";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -58,9 +60,7 @@ export default function Page() {
         </div>
       ) : (
         <div className="flex-grow flex items-center justify-center">
-          <p className="text-gray-500 font-semibold text-3xl">
-            No history available
-          </p>
+          <Spin size="large" indicator={<LoadingOutlined spin />} />
         </div>
       )}
     </div>
