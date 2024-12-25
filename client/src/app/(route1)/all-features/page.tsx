@@ -1,6 +1,4 @@
 "use client";
-import { getMe } from "@/libs/getMe";
-import { Button, Card, FloatButton, Image, Spin } from "antd";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -23,7 +21,7 @@ export default function Page() {
         </button>
         <button
           onClick={() => {
-            router.push("/history");
+            router.push(`/history/${session?.user}`);
           }}
           className="bg-slate-100 rounded-xl flex items-end  justify-center p-8 bg-tracking bg-no-repeat bg-cover transition-transform  hover:scale-105"
         >

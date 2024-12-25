@@ -12,9 +12,21 @@ import {
   MdPerson,
   MdUpload,
 } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Skeleton } from "antd";
 import { icons } from "antd/es/image/PreviewGroup";
+
+interface Routes {
+  key: string;
+  icon: React.ReactNode;
+  label: string;
+  children?: Array<{ key: string; icon: React.ReactNode; label: string }>;
+}
+interface Team {
+  team_id: string;
+  name: string;
+  role: string;
+}
 
 export default function SiderLayout() {
   const { data: session } = useSession();
@@ -22,18 +34,8 @@ export default function SiderLayout() {
 
   const [teams, setTeams] = useState<Team[]>([]);
 
-  interface Routes {
-    key: string;
-    icon: React.ReactNode;
-    label: string;
-    children?: Array<{ key: string; icon: React.ReactNode; label: string }>;
-  }
-  interface Team {
-    team_id: string;
-    name: string;
-    role: string;
-  }
-
+  const pathname = usePathname();
+  const path = pathname.slice(1);
   useEffect(() => {
     getAllTeams(session?.user.token as string).then((res) => {
       setTeams(res);
@@ -56,6 +58,7 @@ export default function SiderLayout() {
           onClick={({ key }) => {
             router.push(`/${key}`);
           }}
+          selectedKeys={[path]}
           items={[
             ...routes,
             {
