@@ -4,9 +4,17 @@ import { Layout, Menu } from "antd";
 import { useSession } from "next-auth/react";
 import Sider from "antd/es/layout/Sider";
 import { useEffect, useState } from "react";
-import { MdMail } from "react-icons/md";
+import {
+  MdChat,
+  MdChatBubble,
+  MdHistory,
+  MdMail,
+  MdPerson,
+  MdUpload,
+} from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "antd";
+import { icons } from "antd/es/image/PreviewGroup";
 
 export default function SiderLayout() {
   const { data: session } = useSession();
@@ -14,6 +22,12 @@ export default function SiderLayout() {
 
   const [teams, setTeams] = useState<Team[]>([]);
 
+  interface Routes {
+    key: string;
+    icon: React.ReactNode;
+    label: string;
+    children?: Array<{ key: string; icon: React.ReactNode; label: string }>;
+  }
   interface Team {
     team_id: string;
     name: string;
@@ -40,16 +54,26 @@ export default function SiderLayout() {
           mode="inline"
           defaultSelectedKeys={[teams[0]?.team_id]}
           onClick={({ key }) => {
-            router.push(`/history/${key}`);
+            router.push(`/${key}`);
           }}
-          items={
-            teams &&
-            teams.map((team: Team) => ({
-              key: team.team_id,
-              icon: <MdMail />,
-              label: team.name,
-            }))
-          }
+          items={[
+            ...routes,
+            {
+              key: "history",
+              icon: <MdHistory />,
+              label: "History",
+              children: teams.map((team: Team) => ({
+                key: `history/${team.team_id}`,
+                icon: <MdPerson />,
+                label: team.name,
+              })),
+            },
+          ].map((item: Routes) => ({
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+            children: item.children,
+          }))}
         />
       ) : (
         <div className=" flex flex-col justify-start items-center ">
@@ -62,3 +86,16 @@ export default function SiderLayout() {
     </Sider>
   );
 }
+
+const routes = [
+  {
+    icon: <MdChatBubble />,
+    label: "Chat",
+    key: "chat",
+  },
+  {
+    icon: <MdUpload />,
+    label: "Upload",
+    key: "upload",
+  },
+];

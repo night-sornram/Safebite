@@ -36,20 +36,18 @@ export default function Page() {
               className="h-44 flex items-center justify-between gap-4 p-4 bg-secondary-card rounded-lg shadow-md"
             >
               <div className="flex h-full items-center gap-4">
-                <div className="h-full w-2/5">
+                <div className="flex items-center h-full ">
                   <Image
                     src={card.picture}
-                    width={80}
-                    height={80}
+                    width={180}
+                    height={140}
                     alt="food"
-                    className="h-full w-full object-cover rounded-lg"
+                    className="object-cover rounded-lg"
                   />
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold">{card.food_name}</h2>
-                  <p className="text-sm text-gray-500">
-                    {card.date} at {card.date}
-                  </p>
+                  <p className="text-sm text-gray-500">{card.date}</p>
                 </div>
               </div>
               <button className="p-2 text-white rounded-lg bg-blue-500">

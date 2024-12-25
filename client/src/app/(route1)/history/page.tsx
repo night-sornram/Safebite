@@ -43,7 +43,7 @@ export default function Page() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold">{card.food_name}</h2>
-                <p className="text-sm text-gray-500">{card.CreateAt} at</p>
+                <p className="text-sm text-gray-500">{card.CreateAt}</p>
               </div>
             </div>
             <button className="p-2 text-white rounded-lg bg-blue-500">
