@@ -15,6 +15,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { Skeleton } from "antd";
 import { icons } from "antd/es/image/PreviewGroup";
+import React from 'react';
 
 interface Routes {
   key: string;
@@ -22,7 +23,7 @@ interface Routes {
   label: string;
   children?: Array<{ key: string; icon: React.ReactNode; label: string }>;
 }
-interface Team {
+export interface Team {
   team_id: string;
   name: string;
   role: string;
@@ -88,9 +89,9 @@ export default function SiderLayout() {
       )}
       <div className="absolute bottom-5 w-full px-4">
         <div className="flex items-center justify-between rounded-lg bg-gray-100 p-2">
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center"  onClick={() => router.push("/profile")}>
             <Avatar size={36} icon={<MdPerson />} />
-            <h1 className="text-base font-semibold">
+            <h1 className="text-black font-semibold">
               {session?.user.username}
             </h1>
           </div>

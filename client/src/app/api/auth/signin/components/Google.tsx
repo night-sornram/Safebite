@@ -37,7 +37,7 @@ export function GoogleLoginComponent() {
     };
 
     return (
-        <GoogleOAuthProvider clientId={clientId}>
+        <GoogleOAuthProvider clientId={"1034766512588-u9tmfmncl9g86pr2a4q2o5hht6hbgm7e.apps.googleusercontent.com"}>
             <div className='flex justify-center'>
                 <GoogleLogin
                     onSuccess={onSuccess}
