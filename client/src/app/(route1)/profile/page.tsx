@@ -104,7 +104,7 @@ export default function Profile() {
                 <div className="mb-4">
                     <p className="text-lg mb-2">Religion:</p>
                     <div className="bg-gray-400 text-white py-1 px-3 rounded">
-                        {user?.religion}
+                        {user?.religion ? user.religion : 'None'}
                     </div>
                 </div>
 
@@ -112,7 +112,7 @@ export default function Profile() {
                     <p className="text-lg mb-2">Food Allergy:</p>
                     <div className="flex flex-col gap-2">
                         <div className="bg-gray-400 text-white py-1 px-3 rounded">
-                            {user?.food_allergy}
+                            {user?.food_allergy ? user.food_allergy : 'None'}
                         </div>
                     </div>
                 </div>
