@@ -1,5 +1,12 @@
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/:path*"],
+  matcher: [
+    "/all-features",
+    "/chat",
+    "/history",
+    "/history/(.*)",
+    "/upload",
+    "/",
+  ],
 };
