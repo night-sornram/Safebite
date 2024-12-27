@@ -81,7 +81,9 @@ const App = () => {
     setUploading(true);
 
     // **Change
-    await prediction(session?.user.user_id as string, base64Files[0], ["fish"])
+    await prediction(session?.user.user_id as string, base64Files[0], [
+      session?.user.food_allergy as string,
+    ])
       .then(async (res: Food) => {
         console.log(res);
         setFoodResponse(res);
